@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,9 +14,30 @@ const AdminPage = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [bookings, setBookings] = useState([]);
 
   const token = localStorage.getItem('jwtToken'); // Retrieve the token from localStorage
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(
+          'https://mygreekid-gateway-3fca46750ff3.herokuapp.com/api/bookings',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,            },
+          }
+        );
+        setBookings(response.data);
+      } catch (err) {
+        console.error('Error fetching bookings:', err);
+        setError('Failed to fetch bookings.');
+      }
+    };
+
+    fetchBookings();
+  }, [token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,6 +71,24 @@ const AdminPage = () => {
     }
   };
 
+  const handleCancelBooking = async (id) => {
+    try {
+      await axios.delete(
+        `https://mygreekid-gateway-3fca46750ff3.herokuapp.com/api/bookings/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBookings((prevBookings) => prevBookings.filter((booking) => booking.id !== id));
+      setMessage('Booking cancelled successfully.');
+    } catch (err) {
+      console.error('Error cancelling booking:', err);
+      setError('Failed to cancel booking.');
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('user');
@@ -57,7 +96,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '500px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
       <h2>Admin Registration</h2>
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -165,6 +204,51 @@ const AdminPage = () => {
       >
         Logout
       </button>
+
+      <div style={{ marginTop: '50px' }}>
+        <h3>All Bookings</h3>
+        {bookings.length > 0 ? (
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {bookings.map((booking) => (
+              <li
+                key={booking.id}
+                style={{
+                  marginBottom: '20px',
+                  padding: '15px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  textAlign: 'left',
+                }}
+              >
+                <p><strong>Date:</strong> {booking.slot.date}</p>
+                <p><strong>Time:</strong> {booking.slot.startTime} - {booking.slot.endTime}</p>
+                <p><strong>Room:</strong> {booking.slot.roomNumber}</p>
+                <p><strong>Registrar:</strong> {booking.slot.registrarName}</p>
+                <p><strong>Location:</strong> {booking.slot.departmentLocation}</p>
+                <p><strong>Department:</strong> {booking.slot.departmentName}</p>
+                <p><strong>Address:</strong> {booking.slot.departmentAddress}</p>
+                <p><strong>Appointment Time:</strong> {new Date(booking.appointmentTime).toLocaleString()}</p>
+                <button
+                  onClick={() => handleCancelBooking(booking.id)}
+                  style={{
+                    marginTop: '10px',
+                    padding: '5px 10px',
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Cancel Booking
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No bookings found.</p>
+        )}
+      </div>
     </div>
   );
 };
