@@ -17,16 +17,17 @@ const MyBookingsScreen = () => {
             {
               headers: {
                 Authorization: `Bearer ${token}`, // Include the JWT token
-                role: "ADMIN", // Add the role header
+                role: user.role, // Add the role header
               },
             }
           );
       
-          // Filter bookings for the logged-in user
+        //   Filter bookings for the logged-in user
           const userBookings = response.data.filter(
             (booking) => booking.user.userId === user.userId
           );
           setBookings(userBookings);
+        // console.log(response)
         } catch (err) {
           console.error(err);
           setError('Failed to fetch bookings. Please try again later.');
