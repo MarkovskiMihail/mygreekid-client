@@ -5,6 +5,7 @@ import CalendarPage from './components/calendarpage';
 import RegisterScreen from './components/registerScreen';
 import AdminPage from './components/adminpage'
 import MyBookings from './components/myBookings'
+import CreateSlotsPage from './components/createSlots';
 
 const App = () => {
 
@@ -30,6 +31,10 @@ const App = () => {
                 <Route
                     path="/myBookings"
                     element={<MyBookings/>}
+                    />
+                <Route
+                    path="/createSlots"
+                    element={<CreateSlotsPage/>}
                     />
             </Routes>
         </Router>

@@ -96,158 +96,345 @@ const AdminPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-      <h2>Admin Registration</h2>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#f5f6fa',
+      padding: '40px 20px'
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        backgroundColor: 'white',
+        borderRadius: '15px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '30px'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '30px',
+          borderBottom: '2px solid #f0f2f5',
+          paddingBottom: '20px'
+        }}>
+          <h2 style={{
+            fontSize: '28px',
+            color: '#2d3436',
+            margin: 0,
+            fontWeight: '600'
+          }}>Admin Dashboard</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            style={{ width: '100%', padding: '8px', margin: '5px 0', borderRadius: '4px' }}
-          />
+          <div style={{
+            display: 'flex',
+            gap: '15px'
+          }}>
+            <button
+              onClick={() => navigate('/createSlots')}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#4834d4',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#3c2ab3'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#4834d4'}
+            >
+              Create Slots
+            </button>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#ff4757',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#ff6b81'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#ff4757'}
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            style={{ width: '100%', padding: '8px', margin: '5px 0', borderRadius: '4px' }}
-          />
-        </div>
+        {/* Admin Registration Form */}
+        <div style={{
+          backgroundColor: '#f8f9fa',
+          padding: '30px',
+          borderRadius: '12px',
+          marginBottom: '40px'
+        }}>
+          <h3 style={{
+            fontSize: '20px',
+            color: '#2d3436',
+            marginBottom: '20px',
+            fontWeight: '600'
+          }}>Register New Admin</h3>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            style={{ width: '100%', padding: '8px', margin: '5px 0', borderRadius: '4px' }}
-          />
-        </div>
+          {message && (
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#e3ffe3',
+              color: '#28a745',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              {message}
+            </div>
+          )}
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="department">Department</label>
-          <select
-            id="department"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            required
-            style={{ width: '100%', padding: '8px', margin: '5px 0', borderRadius: '4px' }}
-          >
-            <option value="">-- Select Department --</option>
-            <option value="Athens_Police_Department">Athens Police Department</option>
-            <option value="Thessaloniki_Police_Department">Thessaloniki Police Department</option>
-          </select>
-        </div>
+          {error && (
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#ffe3e3',
+              color: '#ff4757',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              {error}
+            </div>
+          )}
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="location">Location</label>
-          <select
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            style={{ width: '100%', padding: '8px', margin: '5px 0', borderRadius: '4px' }}
-          >
-            <option value="">-- Select Location --</option>
-            <option value="ATHENS">Athens</option>
-            <option value="THESSALONIKI">Thessaloniki</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: '#007BFF',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-          }}
-        >
-          {loading ? 'Registering Admin...' : 'Register Admin'}
-        </button>
-      </form>
-
-      <button
-        onClick={handleLogout}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#dc3545',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Logout
-      </button>
-
-      <div style={{ marginTop: '50px' }}>
-        <h3>All Bookings</h3>
-        {bookings.length > 0 ? (
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {bookings.map((booking) => (
-              <li
-                key={booking.id}
+          <form onSubmit={handleSubmit}>
+            {/* Form inputs with consistent styling */}
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                color: '#4a5568',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
                 style={{
-                  marginBottom: '20px',
-                  padding: '15px',
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                  textAlign: 'left',
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                color: '#4a5568',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                color: '#4a5568',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                color: '#4a5568',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>Department</label>
+              <select
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
                 }}
               >
-                <p><strong>Date:</strong> {booking.slot.date}</p>
-                <p><strong>Time:</strong> {booking.slot.startTime} - {booking.slot.endTime}</p>
-                <p><strong>Room:</strong> {booking.slot.roomNumber}</p>
-                <p><strong>Registrar:</strong> {booking.slot.registrarName}</p>
-                <p><strong>Location:</strong> {booking.slot.departmentLocation}</p>
-                <p><strong>Department:</strong> {booking.slot.departmentName}</p>
-                <p><strong>Address:</strong> {booking.slot.departmentAddress}</p>
-                <p><strong>Appointment Time:</strong> {new Date(booking.appointmentTime).toLocaleString()}</p>
-                <button
-                  onClick={() => handleCancelBooking(booking.id)}
+                <option value="">-- Select Department --</option>
+                <option value="Athens_Police_Department">Athens Police Department</option>
+                <option value="Thessaloniki_Police_Department">Thessaloniki Police Department</option>
+              </select>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{
+                display: 'block',
+                marginBottom: '8px',
+                color: '#4a5568',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}>Location</label>
+              <select
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+              >
+                <option value="">-- Select Location --</option>
+                <option value="ATHENS">Athens</option>
+                <option value="THESSALONIKI">Thessaloniki</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '12px',
+                backgroundColor: '#4834d4',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                transition: 'background-color 0.3s ease',
+                opacity: loading ? 0.7 : 1
+              }}
+            >
+              {loading ? 'Registering...' : 'Register Admin'}
+            </button>
+          </form>
+        </div>
+
+        {/* Bookings List */}
+        <div>
+          <h3 style={{
+            fontSize: '20px',
+            color: '#2d3436',
+            marginBottom: '20px',
+            fontWeight: '600'
+          }}>All Bookings</h3>
+
+          {bookings.length > 0 ? (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: '20px'
+            }}>
+              {bookings.map((booking) => (
+                <div
+                  key={booking.id}
                   style={{
-                    marginTop: '10px',
-                    padding: '5px 10px',
-                    backgroundColor: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
+                    backgroundColor: '#f8f9fa',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    border: '1px solid #e2e8f0'
                   }}
                 >
-                  Cancel Booking
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No bookings found.</p>
-        )}
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Date:</strong> {booking.slot.date}</p>
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Time:</strong> {booking.slot.startTime} - {booking.slot.endTime}</p>
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Room:</strong> {booking.slot.roomNumber}</p>
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Registrar:</strong> {booking.slot.registrarName}</p>
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Location:</strong> {booking.slot.departmentLocation}</p>
+                  <p style={{ margin: '8px 0', fontSize: '14px' }}><strong>Department:</strong> {booking.slot.departmentName}</p>
+                  
+                  <button
+                    onClick={() => handleCancelBooking(booking.id)}
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      backgroundColor: '#ff4757',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      marginTop: '15px',
+                      transition: 'background-color 0.3s ease'
+                    }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = '#ff6b81'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#ff4757'}
+                  >
+                    Cancel Booking
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{
+              textAlign: 'center',
+              padding: '40px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '12px',
+              color: '#636e72'
+            }}>
+              No bookings found.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
